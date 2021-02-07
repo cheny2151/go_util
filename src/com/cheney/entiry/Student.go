@@ -2,11 +2,11 @@ package entiry
 
 import "fmt"
 
-type Student struct{
+type Student struct {
 	People People
-	no string
+	no     string
 }
 
-func (s Student) Remark()  {
+func (s *Student) Remark() {
 	fmt.Print("student's work is study")
 }

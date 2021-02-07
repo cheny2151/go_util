@@ -25,6 +25,7 @@ func (reader *ExcelReader) ReadCell(cellNumber []string, startRow int, endRow in
 	}
 
 	file := reader.file
+	sheetName := file.GetSheetName(0)
 
 	values := make([][]interface{}, endRow-startRow+1)
 	index := 0
@@ -37,7 +38,7 @@ func (reader *ExcelReader) ReadCell(cellNumber []string, startRow int, endRow in
 
 		value := make([]interface{}, len(cellToFind))
 		for j := 0; j < len(cellToFind); j++ {
-			s, e := file.GetCellValue("sheet", cellToFind[j])
+			s, e := file.GetCellValue(sheetName, cellToFind[j])
 			if e != nil {
 				fmt.Println(e)
 				return nil
@@ -48,4 +49,17 @@ func (reader *ExcelReader) ReadCell(cellNumber []string, startRow int, endRow in
 		index++
 	}
 	return values
+}
+
+func (reader *ExcelReader) ReadAllCell(index int) [][]string {
+	e := reader.e
+	if e != nil {
+		fmt.Println(e)
+		return nil
+	}
+
+	file := reader.file
+	sheetName := file.GetSheetName(index)
+	rows, _ := file.GetRows(sheetName)
+	return rows
 }
